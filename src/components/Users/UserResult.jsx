@@ -8,7 +8,7 @@ const UserResult = () => {
     <Loading />
   ) : (
     <div className='grid grid-cols-1 gap-8 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 '>
-      {users &&
+      {users.length > 0 &&
         users.map((user) => {
           return <UserItem key={user.id} user={user} />;
         })}

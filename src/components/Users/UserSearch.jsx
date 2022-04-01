@@ -1,17 +1,24 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
+import { useGithubContext } from '../../context/github/GithubContext';
+import { Actions } from './../../constants/Actions';
 
 const UserSearch = () => {
   const [text, setText] = useState('');
-  useEffect(() => console.log(text), [text]);
-
-  const handleGithub = () => {
-    // const response= await axios.get()
+  const { users, searchUsers, dispatch } = useGithubContext();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (text === '') {
+      alert('Please enter something');
+    } else {
+      searchUsers(text);
+      setText('');
+    }
   };
 
   return (
     <div className='grid grid-cols-1 xl:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 mb-8 gap-8'>
       <div>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className='form-control'>
             <div className='relative'>
               <input
@@ -21,8 +28,8 @@ const UserSearch = () => {
                 value={text}
               />
               <button
+                type='submit'
                 className=' absolute top-0 right-0 rounded-l-none w-36 btn btn-lg'
-                onClick={handleGithub}
               >
                 Go
               </button>
@@ -30,11 +37,16 @@ const UserSearch = () => {
           </div>
         </form>
       </div>
-      <div>
-        <button className='btn btn-ghost btn-lg' onClick={() => setText('')}>
-          Clear
-        </button>
-      </div>
+      {users.length > 0 && (
+        <div>
+          <button
+            className='btn btn-ghost btn-lg'
+            onClick={() => dispatch({ type: Actions.CLEAR_USERS })}
+          >
+            Clear
+          </button>
+        </div>
+      )}
     </div>
   );
 };
