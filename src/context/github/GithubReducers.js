@@ -13,6 +13,8 @@ export const GithubReducer = (state, action) => {
     case 'set-loading':
       return { ...state, loading: true };
 
+    case 'remove-loading':
+      return { ...state, loading: false };
     case 'clear-users':
       return {
         ...state,

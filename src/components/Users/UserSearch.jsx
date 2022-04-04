@@ -14,7 +14,13 @@ const UserSearch = () => {
       setAlert('Please enter something', 'error', 3000);
     } else {
       const users = await searchUsers(text);
-      dispatch({ type: 'get-users', payload: { users } });
+
+      if (users.length === 0) {
+        setAlert('No matches found', 'error', 3000);
+        dispatch({ type: Actions.REMOVE_LOADING });
+      } else {
+        dispatch({ type: 'get-users', payload: { users } });
+      }
       setText('');
     }
   };
